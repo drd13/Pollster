@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Pollster</title>
+    <link rel="stylesheet" type="text/css" href="resetStylesheet.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="angularApp.js"></script>
+  </head>
+  <body ng-app="pollster" ng-controller="MainCtrl">
+    <nav id='navbar'>
+      <ul>
+        <li><a href='#'>Home</a></li>
+        <li><a href='#'>Categories</a></li>
+        <li><a href='#'>Add a Pole</a></li>
+        <li><a href='#'>Sign In</a></li>
+      </ul>
+    </nav>
+      <h1>Recent Polls</h1>
+      <div ng-repeat="poll in polls" class="pollElement">
+        <span class="pollTitle">
+          {{poll.question}}
+        </span>
+        {{poll.choice1}} or {{poll.choice2}}
+        <div class= "pollComments">
+          Comments
+        </div>
+      </div>
+
+      <form ng-submit="addPoll()"
+        style="margin-top:30px;">
+        <h3>Add a new poll</h3>
+
+        <div class="form-group">
+          <input type="text"
+          class="form-control"
+          placeholder="Comment"
+          ng-model="body"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+      </form>
+  </body>
+
+
+
+</html>
