@@ -7,15 +7,64 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script src="angularApp.js"></script>
   </head>
-  <body ng-app="pollster" ng-controller="MainCtrl">
+  <body ng-app="pollster">
     <nav id='navbar'>
       <ul>
-        <li><a href='#'>Home</a></li>
+        <li><a href='#/home'>Home</a></li>
         <li><a href='#'>Categories</a></li>
-        <li><a href='#'>Add a Pole</a></li>
+        <li><a href='#/create'>Add a Pole</a></li>
         <li><a href='#'>Sign In</a></li>
       </ul>
     </nav>
+    <h1>Recent Polls</h1>
+    <ui-view></ui-view>
+
+
+    <!--The websites html views are stored bellow -->
+
+    <script type="text/ng-template" id="/home.html">
+      <div ng-repeat="poll in polls" class="pollElement">
+        <span class="pollTitle">
+          {{poll.question}}
+        </span>
+        {{poll.choice1}} or {{poll.choice2}}
+        <div class= "pollComments">
+          Comments
+        </div>
+      </div>
+
+      <form ng-submit="addPoll()"
+        style="margin-top:30px;">
+        <h3>Add a new poll</h3>
+
+        <div class="form-group">
+          <input type="text"
+          class="form-control"
+          placeholder="Comment"
+          ng-model="body"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+      </form>
+    </script>
+
+
+
+    <script type="text/ng-template" id="/addpost.html">
+
+        <form ng-submit="addPoll()" style="margin-top:30px;">
+          <h3>Add a new poll</h3>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Question" style="height: 100px" ng-model="question"></input>
+            <input type="text" class="form-control" placeholder="First Choice" ng-model="choice1"></input>
+            <input type="text" class="form-control" placeholder="Second Choice" ng-model="choice2"></input>
+          </div>
+          <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+      </body>
+    </script>
+
+    <!--
       <h1>Recent Polls</h1>
       <div ng-repeat="poll in polls" class="pollElement">
         <span class="pollTitle">
@@ -39,6 +88,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Post</button>
       </form>
+
+      -->
   </body>
 
 

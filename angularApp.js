@@ -2,15 +2,18 @@ var app = angular.module('pollster',['ui.router']);
 
 app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $urlRouterProvider){
   $stateProvider.state('home',
-    {url:'home',
+    {url:'/home',
     templateUrl:'/home.html',
     controller:'MainCtrl'
   });
   $stateProvider.state('addPost',
-    {url:'new',
-    templateUrl:'/addPost.html',
+    {url:'/create',
+    templateUrl:'/addpost.html',
     controller:'SubmitCtrl'
   });
+
+  $urlRouterProvider.otherwise('home');
+
 }]);
 
 
