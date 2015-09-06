@@ -1,0 +1,64 @@
+body{
+  padding: 20px 40px;
+}
+h1 {
+    font-size: 20px;
+    background-color : rgba(171, 88, 12, 0.89);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-radius: 0px 0px 30px 30px
+
+ }
+.pollElement{
+  background-color: rgb(208, 219, 215);
+  font-family: "Georgia", Times, serif;
+  position:relative;
+  width:80%;
+  margin-left: 5%;
+  margin-bottom: 10px;
+  padding:20px;
+  text-decoration:  none;
+  display: inline-table;
+  border-left: thick solid rgb(47, 98, 228);
+}
+.pollTitle{
+  color: rgb(83, 89, 89);
+  font-size: 20px;
+}
+.pollComments{
+  margin-top: 5px;
+}
+
+.form-control{
+  display: block;
+  width:40%;
+  height: 30px;
+  margin: 10px;
+}
+
+nav {
+  width: 100%;
+  font-size: 20px;
+
+  background-color: rgb(37, 116, 173);
+}
+nav ul {
+  overflow: hidden;
+  list-style: none;
+
+}
+nav ul li {
+  width: 20%;
+  float: left;
+  text-align:center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+a{
+  text-decoration: none;
+  color: rgb(3, 5, 8)
+}
+nav li:hover{
+  background-color: rgb(62, 156, 224);
+}
