@@ -27,24 +27,15 @@
         <span class="pollTitle">
           {{poll.question}}
         </span>
-        {{poll.choice1}} or {{poll.choice2}}
+        {{poll.choice1}}
+        <span ng-click="upvote1(poll)">upvote : {{poll.votes1}}</span>
+        or {{poll.choice2}}
+        <span ng-click="upvote2(poll)">upvote : {{poll.votes2}}</span>
+        <span ng-click="delete(poll)"> remove </span>
         <div class= "pollComments">
           Comments
         </div>
       </div>
-
-      <form ng-submit="addPoll()"
-        style="margin-top:30px;">
-        <h3>Add a new poll</h3>
-
-        <div class="form-group">
-          <input type="text"
-          class="form-control"
-          placeholder="Comment"
-          ng-model="body"></input>
-        </div>
-        <button type="submit" class="btn btn-primary">Post</button>
-      </form>
     </script>
 
 
@@ -64,32 +55,11 @@
       </body>
     </script>
 
-    <!--
-      <h1>Recent Polls</h1>
-      <div ng-repeat="poll in polls" class="pollElement">
-        <span class="pollTitle">
-          {{poll.question}}
-        </span>
-        {{poll.choice1}} or {{poll.choice2}}
-        <div class= "pollComments">
-          Comments
-        </div>
-      </div>
 
-      <form ng-submit="addPoll()"
-        style="margin-top:30px;">
-        <h3>Add a new poll</h3>
+    <scrip type="text/ng-template" id="/comment.html">
+      <h1>Here are the awesome comments</h1>
+    </script>
 
-        <div class="form-group">
-          <input type="text"
-          class="form-control"
-          placeholder="Comment"
-          ng-model="body"></input>
-        </div>
-        <button type="submit" class="btn btn-primary">Post</button>
-      </form>
-
-      -->
   </body>
 
 

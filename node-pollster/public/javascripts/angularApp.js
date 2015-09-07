@@ -5,19 +5,27 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
     {url:'/home',
     templateUrl:'/home.html',
     controller:'MainCtrl',
+
     //resolve is called as to not display page until the http request for the polls has been sent
-    /*resolve: {
+    resolve: {
       //may not be working
       postPromise: ['polls', function(polls){
         return polls.getAll();
       }]
-    }*/
+    }
   });
+
   $stateProvider.state('addPost',
     {url:'/create',
     templateUrl:'/addpost.html',
     controller:'SubmitCtrl'
   });
+
+  $stateProvider.state('comment',
+    {url:'/comment/{id}',
+    templateUrl:'/comment.html',
+    controller:'CommmentCtrl'
+  }):
 
   $urlRouterProvider.otherwise('home');
 
@@ -26,21 +34,40 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
 
 app.controller('MainCtrl', ['$scope', 'polls', function($scope, polls){
   $scope.polls = polls.polls;
-
+  $scope.upvote2 = function(poll){
+    polls.upvote2(poll);
+  };
+  $scope.upvote1 = function(poll){
+    polls.upvote1(poll);
+  };
+  $scope.delete = function(poll){
+    polls.delete(poll);
+  };
 }]);
 
 app.controller('SubmitCtrl',['$scope', 'polls', function($scope, polls){
   $scope.addPoll = function(){
-    polls.polls.push({
+    if(!$scope.question || $scope.choice1 === '' || $scope.choice2 ==='') { return; }
+    data = {
       question:$scope.question,
       choice1:$scope.choice1,
-      choice2:$scope.choice2,
-      votes1:0,
-      votes2:0,
-    });
-    console.log(polls.polls);
+      choice2:$scope.choice2
+    };
+    polls.create(data);
+    $scope.question = '';
+    $scope.choice1 = '';
+    $scope.choice2 = '';
   };
+
 }]);
+
+app.controller('CommentCtrl', ['$scope', 'polls', function($scope, polls){
+  //not sure if it is necessary to import the whole of $scope.polls
+  $scope.polls = polls.polls;
+
+
+}]);
+
 
 app.factory('polls',['$http',function($http){
   var item = {polls:[
@@ -61,6 +88,31 @@ app.factory('polls',['$http',function($http){
       angular.copy(data, item.polls);
     });
   };
+  item.create = function(poll){
+    return $http.post('/polls',poll).success(function(data){
+      //because or post request returns the item as a response we can directly add it to the item dictionary
+      item.polls.push(data);
+    });
+  };
+  item.upvote1 = function(poll){
+    return $http.put('polls/'+poll._id+'/upvote1').success(function(data){
+      poll.votes1+=1;
+    });
+  };
+  item.upvote2 = function(poll){
+    return $http.put('polls/'+poll._id+'/upvote2').success(function(data){
+      poll.votes2+=1;
+    });
+  };
+
+
+  item.delete = function(poll){
+    return $http.delete('polls/'+poll._id+'/delete').success(function(){
+      console.log('yay');
+      item.getAll();
+    });
+  };
+
   //["Would you rather not drink water or not eat meat?", "Do you prefer Math or Litterature?", "What is your favorite country?"]};
   return item;
 }]);

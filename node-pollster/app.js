@@ -5,13 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
+
+var mongoose = require('mongoose');
+require('./models/Polls');
+//Changed database name from news to pollster (compared to tutorial) might be the source of bugs
+mongoose.connect('mongodb://localhost/pollster');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var mongoose = require('mongoose');
-require('./models/Poll');
-//Changed database name from news to pollster (compared to tutorial) might be the source of bugs
-mongoose.connect('mongodb://localhost/pollster');
 
 var app = express();
 
