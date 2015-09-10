@@ -32,9 +32,9 @@
         or {{poll.choice2}}
         <span ng-click="upvote2(poll)">upvote : {{poll.votes2}}</span>
         <span ng-click="delete(poll)"> remove </span>
-        <div class= "pollComments">
-          Comments
-        </div>
+        <!-- viewComment method to be updated (perhaps just replace it with an href) -->
+        <a href="#/comment/{{poll._id}}"> Comments </span>
+
       </div>
     </script>
 
@@ -56,8 +56,21 @@
     </script>
 
 
-    <scrip type="text/ng-template" id="/comment.html">
+    <script type="text/ng-template" id="/comment.html">
+      {{poll.question}}
       <h1>Here are the awesome comments</h1>
+      <div ng-repeat="comment in poll.comments">
+      {{comment.body}} by {{comment.author}}
+      <span ng-click='deleteComment(poll,comment)'>remove</span>
+      </div>
+      <form ng-submit="addComment()">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Author" ng-model="author"></input>
+          <input type="text" class="form-control" placeholder="Your comment here" ng-model="comment"></input>
+
+        </div>
+        <button type="submit" class="btn btn-primary"> submit comment </button>
+      </form>
     </script>
 
   </body>

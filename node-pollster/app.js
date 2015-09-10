@@ -9,6 +9,9 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 require('./models/Polls');
+require('./models/Comments');
+
+
 //Changed database name from news to pollster (compared to tutorial) might be the source of bugs
 mongoose.connect('mongodb://localhost/pollster');
 
