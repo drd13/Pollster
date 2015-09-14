@@ -8,13 +8,27 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
 
     //resolve is called as to not display page until the http request for the polls has been sent
     resolve: {
-      //may not be working
       postPromise: ['polls', function(polls){
         return polls.getAll();
+      }],
+      filteredPolls: [function(){
+        return 'main';
       }]
     }
   });
-
+  $stateProvider.state('category',
+    {url:'/category/{category}',
+    templateUrl:'/home.html',
+    controller:'MainCtrl',
+    resolve: {
+      postPromise: ['polls', function(polls){
+        return polls.getAll();
+      }],
+      filteredPolls: ['$stateParams','polls',function($stateParams,polls){
+        return polls.filter($stateParams.category);
+      }]
+    }
+  });
   $stateProvider.state('addPost',
     {url:'/create',
     templateUrl:'/addpost.html',
@@ -39,7 +53,11 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
 }]);
 
 
-app.controller('MainCtrl', ['$scope', 'polls', function($scope, polls){
+app.controller('MainCtrl', ['$scope', 'polls', 'filteredPolls', function($scope, polls, filteredPolls){
+  console.log('filtered polls is', filteredPolls);
+
+  $scope.filteredPolls = (filteredPolls === 'main') ? polls.polls : filteredPolls;
+
   $scope.polls = polls.polls;
   $scope.upvote2 = function(poll){
     polls.upvote2(poll);
@@ -50,15 +68,21 @@ app.controller('MainCtrl', ['$scope', 'polls', function($scope, polls){
   $scope.delete = function(poll){
     polls.delete(poll);
   };
+
 }]);
 
 app.controller('SubmitCtrl',['$scope', 'polls', function($scope, polls){
+  $scope.categories = ["general", "politics", "opinion", "funny"];
+  $scope.test = function(){
+    console.log("$scope.category is", $scope.category);
+  };
   $scope.addPoll = function(){
     if(!$scope.question || $scope.choice1 === '' || $scope.choice2 ==='') { return; }
     data = {
       question:$scope.question,
       choice1:$scope.choice1,
-      choice2:$scope.choice2
+      choice2:$scope.choice2,
+      category:$scope.category
     };
     polls.create(data);
     $scope.question = '';
@@ -118,6 +142,16 @@ app.factory('polls',['$http',function($http){
       angular.copy(data, item.polls);
     });
   };
+  item.filter = function(category){
+    console.log("filtering");
+    filteredPolls = item.polls.filter(function(poll){
+      console.log(poll.category,category);
+      console.log(poll.category,category);
+
+      return (poll.category === category);
+    });
+    return filteredPolls;
+  };
   item.get = function(id){
     return $http.get('/polls/'+id).then(function(res){
       item.getAll();
@@ -154,7 +188,6 @@ app.factory('polls',['$http',function($http){
   item.deleteComment = function(poll, comment){
     return $http.delete('polls/'+ poll._id + '/delete/' + comment._id);
   };
-
   //["Would you rather not drink water or not eat meat?", "Do you prefer Math or Litterature?", "What is your favorite country?"]};
   return item;
 }]);

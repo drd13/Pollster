@@ -4,6 +4,7 @@ var PollSchema = new mongoose.Schema({
   question:String,
   choice1:String,
   choice2:String,
+  category:{type: String, default:"general"},
   votes1: {type: Number, default:0} ,
   votes2: {type: Number, default:0},
   //just added the comments to the schema this could  lead to errors !!
